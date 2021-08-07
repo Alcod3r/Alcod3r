@@ -17,4 +17,13 @@ CHIP PC {
 
     PARTS:
     // Put your code here:
+    //Lowest presedence out of the three control bits 
+    Inc16(in=tminusone, out=tminusoneplusone);
+    Mux16(a=tminusone, b=tminusoneplusone, sel=inc, out=tminusoneORtminusoneplusone);
+    //Higher precedence than inc
+    Mux16(a=tminusoneORtminusoneplusone, b=in, sel=load, out=tminusoneORtminusoneplusoneORload);
+    //Higher Precedence than load or inc
+    Mux16(a=tminusoneORtminusoneplusoneORload, b=false, sel=reset, out=tminusoneORtminusoneplusoneORloadORzero);
+    Register(in=tminusoneORtminusoneplusoneORloadORzero, load=true, out=tminusone, out=out);
+
 }
